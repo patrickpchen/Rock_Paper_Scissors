@@ -60,10 +60,6 @@ function playRound(playerSelection, computerSelection) {
     } 
   }
 
-  //const playerSelection = "rock";
-  //const computerSelection = computerPlay();
-  //console.log(playRound(playerSelection, computerSelection));
-
 //Create a function for five rounds of the game.
 function game(){
     let playerWins = 0;
