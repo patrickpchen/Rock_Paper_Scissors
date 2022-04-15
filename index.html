@@ -2,9 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="./style.css">
     <title>Rock, Paper, Scissors!!</title>
+    <script src="./script.js" defer></script>
 </head>
 <body>
-    <script src="./script.js"></script>
+    <div class="button-container">
+        <button id="rock">
+            <img src="./images/Rock.jpg">
+            <div class="button-name">ROCK</div>
+        </button>
+
+        <button id="paper">
+            <img src="./images/Paper.jpg">
+            <div class="button-name">PAPER</div>
+        </button>
+
+        <button id="scissors">
+            <img src="./images/Scissors.jpg">
+            <div class="button-name">SCISSORS</div>
+        </button>
+    </div>
+    <div id="button-container">
+        <button id="reset">RESET</button>
+    </div>
+    <p id="round-counter"></p>
+    <div class="result-reporter" id="each-round">
+
+    </div>
+    <div class="result-reporter" id="total">
+
+    </div>
 </body>
 </html>
