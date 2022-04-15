@@ -1,40 +1,81 @@
-game();
+//Initialize a counter that keeps track of how many
+//rounds have been played.
+//Show this counter on the page.
+
+let round = 0;
+const round_counter = document.querySelector('#round-counter');
+round_counter.textContent = 'Round 0 of 5';
+
+//Initialize the number of wins for the user and the computer.
+//These variables will be used by five_games().
+
+let playerWins = 0;
+let computerWins = 0;
+
+//Add an Event Listener that detects the user's choice
+//and enters that choice as the input of five_games().
+
+const ROCK = document.querySelector('#rock');
+ROCK.addEventListener('click', () => five_games('rock'));
+
+const PAPER = document.querySelector('#paper');
+PAPER.addEventListener('click', () => five_games('paper'));
+
+const SCISSORS = document.querySelector('#scissors');
+SCISSORS.addEventListener('click', () => five_games('scissors'));
+
+//If the user clicks on the RESET button, reset the game.
+
+const RESET = document.querySelector('#reset');
+RESET.addEventListener('click', () => reset_game());
+
+//Create divs for the user's and the computer's choices.
+
+const result = document.createElement('div');
+const computer_choice = document.createElement('div');
+const user_choice = document.createElement('div');
+
+//Give those divs the class "report".
+
+computer_choice.classList.add('report');
+result.classList.add('report');
+user_choice.classList.add('report');
+
+const report = document.querySelector('.result-reporter#each-round');
+
+report.appendChild(user_choice);
+report.appendChild(computer_choice);
+report.appendChild(result);
+
+const scores = document.createElement('div');
+const total = document.querySelector('#total');
+scores.classList.add('report');
+total.appendChild(scores);
 
 //A function that plays one round of the game.
-function oneRound(){
-    //Create a function that takes the user's choice.
+
+function oneRound(choice){
     let playerSelection;
     let computerSelection;
     let whoWins;
-    let a = prompt('Choose between Rock, Paper, and Scissors.');
 
-    //Turn that choice into lowercase.
-    a = a.toLowerCase();
+    playerSelection = choice;
 
-    //Make sure the user chose between the three options.
-    //If they did, make it official and let the game start.
-    //If the user chose something that is not rock, paper, or scissors, do the following:
-    if(a !== 'rock' && a !== 'paper' && a !== 'scissors'){
-        alert('You need to choose between rock, paper, and scissors.');
-        whoWins = 'No one wins. You chose something that is not rock, paper, or scissors.';
-    } else {
-    //Finalize the user's choice and display it.
-        playerSelection = a;
-        console.log(`You chose ${playerSelection}.`);
+    user_choice.textContent = `You chose ${playerSelection}.` + '\xa0';
     //Get the computer's choice.
-        computerSelection = computerPlay();
+    computerSelection = computerPlay();
     //Let the computer and the user play! Tell the user what the computer chose.
-        console.log(`The computer chose ${computerSelection}.`);
+    computer_choice.textContent = `The computer chose ${computerSelection}.` + '\xa0';
     //Store the result message. 
-        whoWins = playRound(playerSelection, computerSelection);
-    }
+    whoWins = playRound(playerSelection, computerSelection);
     //Announce the result message.
-    console.log(whoWins);
+    result.textContent = whoWins;
     //Return the result message.
     return whoWins;
 }
 
-//Crate a function that randomly chooses between Rock, Paper, and Scissors.
+//Create a function that randomly chooses between Rock, Paper, and Scissors.
+
 function computerPlay(){
     let myArray = ['rock', 'paper', 'scissors'];
     let x = Math.floor(Math.random() * 10) % 3;
@@ -42,6 +83,7 @@ function computerPlay(){
 }
 
 //Create a function that decides who wins.
+
 function playRound(playerSelection, computerSelection) {
     if(computerSelection === playerSelection){
         return 'It\'s a draw.';
@@ -58,16 +100,16 @@ function playRound(playerSelection, computerSelection) {
     } else if (computerSelection === 'scissors' && playerSelection === 'paper'){
         return 'You lose! Scissors beat paper.';
     } 
-  }
+}
 
 //Create a function for five rounds of the game.
-function game(){
-    let playerWins = 0;
-    let computerWins = 0;
 
-    for (let i = 0; i < 5; i++) {
-        //Get the result message from the oneRound function.
-        let win = oneRound();
+function five_games(choice){
+
+    round = round + 1;
+
+    if (round <= 5){
+        let win = oneRound(choice);
         //If the result message contains the letter 'w', that means the user won.
         if (win[4] === 'w'){
             playerWins = playerWins + 1;
@@ -76,14 +118,33 @@ function game(){
             computerWins = computerWins + 1;
         }
         //Tell the user the current scores.
-        console.log(`You: ${playerWins}; Computer: ${computerWins}`);
+        scores.textContent = `Current Scores: You: ${playerWins}; Computer: ${computerWins}`;
+        round_counter.textContent = `Round ${round} of 5`;
     }
-    //Announce the final winner.
-    if(playerWins > computerWins){
-        console.log('You win!');
-    } else if(computerWins > playerWins){
-        console.log('You lose...');
-    } else {
-        console.log('It\'s a draw.');
+
+    if (round === 5){
+        //If five rounds have been played, announce the final winner.
+        if(playerWins > computerWins){
+            scores.textContent = scores.textContent + '\xa0You win!! Press RESET to play again.';
+        } else if(computerWins > playerWins){
+            scores.textContent = scores.textContent + '\xa0You lose...Press RESET to play again.';
+        } else {
+            scores.textContent = scores.textContent + '\xa0It\'s a draw. Press RESET to play again.';
+        }
     }
+
+    return;
+}
+
+//This function resets the game.
+
+function reset_game(){
+    round = 0;
+    playerWins = 0;
+    computerWins = 0;
+    result.textContent = '';
+    user_choice.textContent = '';
+    computer_choice.textContent = '';
+    scores.textContent = '';
+    round_counter.textContent = `Round 0 of 5`;
 }
