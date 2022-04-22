@@ -4,7 +4,7 @@
 
 let round = 0;
 const round_counter = document.querySelector('#round-counter');
-round_counter.textContent = 'Round 0 of 5';
+round_counter.textContent = 'Round 0';
 
 //Initialize the number of wins for the user and the computer.
 //These variables will be used by five_games().
@@ -102,34 +102,37 @@ function playRound(playerSelection, computerSelection) {
     } 
 }
 
-//Create a function for five rounds of the game.
+//Create a game where the player that reaches five
+//points first is the winner.
 
 function five_games(choice){
 
     round = round + 1;
 
-    if (round <= 5){
+    if (playerWins < 5 && computerWins < 5){
         let win = oneRound(choice);
-        //If the result message contains the letter 'w', that means the user won.
+        //If the result message contains the letter 'w',
+        //that means the user won.
         if (win[4] === 'w'){
             playerWins = playerWins + 1;
-        //If the result message contains the letter 'l', that means the computer won.
+        //If the result message contains the letter 'l',
+        //that means the computer won.
         } else if (win[4] === 'l'){
             computerWins = computerWins + 1;
         }
         //Tell the user the current scores.
         scores.textContent = `Current Scores: You: ${playerWins}; Computer: ${computerWins}`;
-        round_counter.textContent = `Round ${round} of 5`;
+        round_counter.textContent = `Round ${round}`;
     }
 
-    if (round === 5){
+    if (playerWins === 5 || computerWins === 5){
         //If five rounds have been played, announce the final winner.
         if(playerWins > computerWins){
             scores.textContent = scores.textContent + '\xa0You win!! Press RESET to play again.';
+            playerWins = playerWins + 1;
         } else if(computerWins > playerWins){
             scores.textContent = scores.textContent + '\xa0You lose...Press RESET to play again.';
-        } else {
-            scores.textContent = scores.textContent + '\xa0It\'s a draw. Press RESET to play again.';
+            computerWins = computerWins + 1;
         }
     }
 
@@ -146,5 +149,5 @@ function reset_game(){
     user_choice.textContent = '';
     computer_choice.textContent = '';
     scores.textContent = '';
-    round_counter.textContent = `Round 0 of 5`;
+    round_counter.textContent = `Round 0`;
 }
